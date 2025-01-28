@@ -2,13 +2,16 @@ const express = require('express');
 const path = require('path');
 const app = express();
 
-// Serve static files
-app.use(express.static(path.join(__dirname, 'dist/student-login-registration')));
+// Serve static files from the Angular app's dist folder
+app.use(express.static(path.join(__dirname, 'dist/student-login-registration/browser')));
 
-// Handle Angular routing, return all requests to the index.html
+// Handle Angular routing: Return index.html for all unmatched routes
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist/student-login-registration/browser/index.html'));
 });
 
-// Start the app by listening on the default Heroku port
-app.listen(process.env.PORT || 8080);
+// Start the app by listening on the default Heroku port or port 8080
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
